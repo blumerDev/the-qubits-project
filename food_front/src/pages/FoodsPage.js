@@ -95,17 +95,17 @@ function FoodsPage() {
   };
 
   const handleSaveFood = () => {
-    // Validaciones
+    // Validations
     if (!foodForm.name.trim()) {
-      setError('El nombre es requerido');
+      setError('Name is required');
       return;
     }
     if (!foodForm.category) {
-      setError('La categoría es requerida');
+      setError('Category is required');
       return;
     }
     if (!foodForm.preparationTime || isNaN(parseInt(foodForm.preparationTime))) {
-      setError('El tiempo de preparación debe ser un número válido');
+      setError('Preparation time must be a valid number');
       return;
     }
 
@@ -142,34 +142,34 @@ function FoodsPage() {
       setShowAddDialog(false);
       setError('');
     } catch (err) {
-      setError('Error al guardar la comida');
+      setError('Error saving food');
     }
   };
 
   const getCategoryLabel = (category) => {
     const labels = {
-      breakfast: 'Desayuno',
-      lunch: 'Almuerzo',
-      dinner: 'Cena',
+      breakfast: 'Breakfast',
+      lunch: 'Lunch',
+      dinner: 'Dinner',
       snack: 'Snack',
-      dessert: 'Postre',
-      beverage: 'Bebida'
+      dessert: 'Dessert',
+      beverage: 'Beverage'
     };
     return labels[category] || category;
   };
 
   const getTagLabel = (tag) => {
     const labels = {
-      'vegetarian': 'Vegetariano',
-      'vegan': 'Vegano',
-      'gluten-free': 'Sin Gluten',
-      'dairy-free': 'Sin Lácteos',
-      'low-carb': 'Bajo en Carbohidratos',
-      'high-protein': 'Alto en Proteínas',
-      'quick': 'Rápido',
-      'healthy': 'Saludable',
+      'vegetarian': 'Vegetarian',
+      'vegan': 'Vegan',
+      'gluten-free': 'Gluten Free',
+      'dairy-free': 'Dairy Free',
+      'low-carb': 'Low Carb',
+      'high-protein': 'High Protein',
+      'quick': 'Quick',
+      'healthy': 'Healthy',
       'comfort': 'Comfort Food',
-      'spicy': 'Picante'
+      'spicy': 'Spicy'
     };
     return labels[tag] || tag;
   };
@@ -190,7 +190,7 @@ function FoodsPage() {
               mb: 1
             }}
           >
-            Gestión de Comidas
+            Food Management
           </Typography>
           <Typography 
             variant="body1" 
@@ -199,7 +199,7 @@ function FoodsPage() {
               maxWidth: 600
             }}
           >
-            Administra tu catálogo de comidas. Puedes agregar nuevas recetas, editar las existentes y organizarlas por categorías.
+            Manage your food catalog. You can add new recipes, edit existing ones and organize them by categories.
           </Typography>
         </Box>
 
@@ -209,7 +209,7 @@ function FoodsPage() {
           onEditFood={handleEditFood}
         />
 
-        {/* Dialog para agregar/editar comida */}
+        {/* Dialog to add/edit food */}
         <Dialog
           open={showAddDialog}
           onClose={() => setShowAddDialog(false)}
@@ -217,7 +217,7 @@ function FoodsPage() {
           fullWidth
         >
           <DialogTitle>
-            {editingFood ? 'Editar Comida' : 'Agregar Nueva Comida'}
+            {editingFood ? 'Edit Food' : 'Add New Food'}
           </DialogTitle>
           
           <DialogContent sx={{ pt: 2 }}>
@@ -228,17 +228,17 @@ function FoodsPage() {
             )}
 
             <Grid container spacing={3}>
-              {/* Información básica */}
+              {/* Basic information */}
               <Grid item xs={12}>
                 <Typography variant="h6" sx={{ mb: 2, color: '#2F4F2F' }}>
-                  Información Básica
+                  Basic Information
                 </Typography>
               </Grid>
               
               <Grid item xs={12} md={8}>
                 <TextField
                   fullWidth
-                  label="Nombre de la comida"
+                  label="Food name"
                   value={foodForm.name}
                   onChange={(e) => handleFormChange('name', e.target.value)}
                   required
@@ -247,10 +247,10 @@ function FoodsPage() {
               
               <Grid item xs={12} md={4}>
                 <FormControl fullWidth required>
-                  <InputLabel>Categoría</InputLabel>
+                  <InputLabel>Category</InputLabel>
                   <Select
                     value={foodForm.category}
-                    label="Categoría"
+                    label="Category"
                     onChange={(e) => handleFormChange('category', e.target.value)}
                   >
                     {Object.values(FOOD_CATEGORIES).map((category) => (
@@ -265,7 +265,7 @@ function FoodsPage() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Descripción"
+                  label="Description"
                   multiline
                   rows={3}
                   value={foodForm.description}
@@ -276,26 +276,26 @@ function FoodsPage() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Ingredientes (separados por comas)"
+                  label="Ingredients (separated by commas)"
                   multiline
                   rows={2}
                   value={foodForm.ingredients}
                   onChange={(e) => handleFormChange('ingredients', e.target.value)}
-                  placeholder="ej: tomate, lechuga, pollo, aceite de oliva"
+                  placeholder="e.g: tomato, lettuce, chicken, olive oil"
                 />
               </Grid>
 
-              {/* Detalles de preparación */}
+              {/* Preparation details */}
               <Grid item xs={12}>
                 <Typography variant="h6" sx={{ mb: 2, color: '#2F4F2F' }}>
-                  Detalles de Preparación
+                  Preparation Details
                 </Typography>
               </Grid>
               
               <Grid item xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label="Tiempo de preparación (minutos)"
+                  label="Preparation time (minutes)"
                   type="number"
                   value={foodForm.preparationTime}
                   onChange={(e) => handleFormChange('preparationTime', e.target.value)}
@@ -305,30 +305,30 @@ function FoodsPage() {
               
               <Grid item xs={12} md={6}>
                 <FormControl fullWidth>
-                  <InputLabel>Dificultad</InputLabel>
+                  <InputLabel>Difficulty</InputLabel>
                   <Select
                     value={foodForm.difficulty}
-                    label="Dificultad"
+                    label="Difficulty"
                     onChange={(e) => handleFormChange('difficulty', e.target.value)}
                   >
-                    <MenuItem value="easy">Fácil</MenuItem>
-                    <MenuItem value="medium">Medio</MenuItem>
-                    <MenuItem value="hard">Difícil</MenuItem>
+                    <MenuItem value="easy">Easy</MenuItem>
+                    <MenuItem value="medium">Medium</MenuItem>
+                    <MenuItem value="hard">Hard</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
 
-              {/* Información nutricional */}
+              {/* Nutritional information */}
               <Grid item xs={12}>
                 <Typography variant="h6" sx={{ mb: 2, color: '#2F4F2F' }}>
-                  Información Nutricional (opcional)
+                  Nutritional Information (optional)
                 </Typography>
               </Grid>
               
               <Grid item xs={6} md={3}>
                 <TextField
                   fullWidth
-                  label="Calorías"
+                  label="Calories"
                   type="number"
                   value={foodForm.calories}
                   onChange={(e) => handleFormChange('calories', e.target.value)}
@@ -338,7 +338,7 @@ function FoodsPage() {
               <Grid item xs={6} md={3}>
                 <TextField
                   fullWidth
-                  label="Proteínas (g)"
+                  label="Protein (g)"
                   type="number"
                   value={foodForm.protein}
                   onChange={(e) => handleFormChange('protein', e.target.value)}
@@ -348,7 +348,7 @@ function FoodsPage() {
               <Grid item xs={6} md={3}>
                 <TextField
                   fullWidth
-                  label="Carbohidratos (g)"
+                  label="Carbohydrates (g)"
                   type="number"
                   value={foodForm.carbs}
                   onChange={(e) => handleFormChange('carbs', e.target.value)}
@@ -358,28 +358,28 @@ function FoodsPage() {
               <Grid item xs={6} md={3}>
                 <TextField
                   fullWidth
-                  label="Grasas (g)"
+                  label="Fat (g)"
                   type="number"
                   value={foodForm.fat}
                   onChange={(e) => handleFormChange('fat', e.target.value)}
                 />
               </Grid>
 
-              {/* URL de imagen */}
+              {/* Image URL */}
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="URL de imagen (opcional)"
+                  label="Image URL (optional)"
                   value={foodForm.image}
                   onChange={(e) => handleFormChange('image', e.target.value)}
                   placeholder="https://example.com/imagen.jpg"
                 />
               </Grid>
 
-              {/* Etiquetas */}
+              {/* Tags */}
               <Grid item xs={12}>
                 <Typography variant="h6" sx={{ mb: 2, color: '#2F4F2F' }}>
-                  Etiquetas
+                  Tags
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {Object.values(FOOD_TAGS).map((tag) => (
@@ -408,7 +408,7 @@ function FoodsPage() {
               onClick={() => setShowAddDialog(false)}
               sx={{ color: '#7A8471' }}
             >
-              Cancelar
+              Cancel
             </Button>
             <Button 
               onClick={handleSaveFood}
@@ -418,7 +418,7 @@ function FoodsPage() {
                 '&:hover': { backgroundColor: '#5C8A4A' }
               }}
             >
-              {editingFood ? 'Actualizar' : 'Agregar'}
+              {editingFood ? 'Update' : 'Add'}
             </Button>
           </DialogActions>
         </Dialog>

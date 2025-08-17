@@ -60,12 +60,12 @@ function FoodCard({
 
   const getCategoryLabel = (category) => {
     const labels = {
-      breakfast: 'Desayuno',
-      lunch: 'Almuerzo',
-      dinner: 'Cena',
+      breakfast: 'Breakfast',
+      lunch: 'Lunch',
+      dinner: 'Dinner',
       snack: 'Snack',
-      dessert: 'Postre',
-      beverage: 'Bebida'
+      dessert: 'Dessert',
+      beverage: 'Beverage'
     };
     return labels[category] || category;
   };
@@ -165,7 +165,7 @@ function FoodCard({
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Restaurant sx={{ fontSize: 16, color: '#7A8471' }} />
             <Typography variant="caption" sx={{ color: '#7A8471' }}>
-              {foodData.servings} {foodData.servings === 1 ? 'porción' : 'porciones'}
+              {foodData.servings} {foodData.servings === 1 ? 'serving' : 'servings'}
             </Typography>
           </Box>
 
@@ -281,7 +281,7 @@ function FoodCard({
               },
             }}
           >
-            Seleccionar
+            Select
           </Button>
         )}
       </CardContent>

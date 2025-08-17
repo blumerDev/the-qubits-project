@@ -1,14 +1,14 @@
 import { Food, FOOD_CATEGORIES, FOOD_TAGS } from '../models/Food';
 import { WeeklyMenu } from '../models/WeeklyMenu';
 
-// Datos mock de comidas
+// Mock food data
 export const mockFoods = [
   new Food({
     id: '1',
-    name: 'Ensalada Mediterránea',
-    description: 'Ensalada fresca con tomates, pepinos, aceitunas y queso feta',
+    name: 'Mediterranean Salad',
+    description: 'Fresh salad with tomatoes, cucumbers, olives and feta cheese',
     category: FOOD_CATEGORIES.LUNCH,
-    ingredients: ['lechuga', 'tomate', 'pepino', 'aceitunas', 'queso feta', 'aceite de oliva'],
+    ingredients: ['lettuce', 'tomato', 'cucumber', 'olives', 'feta cheese', 'olive oil'],
     nutritionalInfo: { calories: 250, protein: 8, carbs: 12, fat: 18 },
     preparationTime: 15,
     difficulty: 'easy',
@@ -20,10 +20,10 @@ export const mockFoods = [
   
   new Food({
     id: '2',
-    name: 'Salmón a la Plancha',
-    description: 'Salmón fresco con hierbas y limón, acompañado de vegetales',
+    name: 'Grilled Salmon',
+    description: 'Fresh salmon with herbs and lemon, served with vegetables',
     category: FOOD_CATEGORIES.DINNER,
-    ingredients: ['salmón', 'limón', 'hierbas finas', 'brócoli', 'zanahorias'],
+    ingredients: ['salmon', 'lemon', 'fine herbs', 'broccoli', 'carrots'],
     nutritionalInfo: { calories: 420, protein: 35, carbs: 8, fat: 25 },
     preparationTime: 25,
     difficulty: 'medium',
@@ -35,10 +35,10 @@ export const mockFoods = [
 
   new Food({
     id: '3',
-    name: 'Avena con Frutas',
-    description: 'Avena cremosa con frutas frescas y nueces',
+    name: 'Oatmeal with Fruits',
+    description: 'Creamy oatmeal with fresh fruits and nuts',
     category: FOOD_CATEGORIES.BREAKFAST,
-    ingredients: ['avena', 'leche de almendras', 'plátano', 'arándanos', 'nueces', 'miel'],
+    ingredients: ['oatmeal', 'almond milk', 'banana', 'blueberries', 'walnuts', 'honey'],
     nutritionalInfo: { calories: 320, protein: 12, carbs: 45, fat: 8 },
     preparationTime: 10,
     difficulty: 'easy',
@@ -50,10 +50,10 @@ export const mockFoods = [
 
   new Food({
     id: '4',
-    name: 'Pollo al Curry',
-    description: 'Pollo tierno en salsa de curry con arroz basmati',
+    name: 'Chicken Curry',
+    description: 'Tender chicken in curry sauce with basmati rice',
     category: FOOD_CATEGORIES.DINNER,
-    ingredients: ['pechuga de pollo', 'curry', 'leche de coco', 'arroz basmati', 'cebolla', 'ajo'],
+    ingredients: ['chicken breast', 'curry', 'coconut milk', 'basmati rice', 'onion', 'garlic'],
     nutritionalInfo: { calories: 480, protein: 32, carbs: 38, fat: 18 },
     preparationTime: 40,
     difficulty: 'medium',
@@ -65,10 +65,10 @@ export const mockFoods = [
 
   new Food({
     id: '5',
-    name: 'Smoothie Verde',
-    description: 'Batido nutritivo con espinacas, mango y piña',
+    name: 'Green Smoothie',
+    description: 'Nutritious smoothie with spinach, mango and pineapple',
     category: FOOD_CATEGORIES.BEVERAGE,
-    ingredients: ['espinacas', 'mango', 'piña', 'plátano', 'agua de coco'],
+    ingredients: ['spinach', 'mango', 'pineapple', 'banana', 'coconut water'],
     nutritionalInfo: { calories: 180, protein: 4, carbs: 42, fat: 1 },
     preparationTime: 5,
     difficulty: 'easy',
@@ -81,9 +81,9 @@ export const mockFoods = [
   new Food({
     id: '6',
     name: 'Pasta Primavera',
-    description: 'Pasta con vegetales frescos de temporada',
+    description: 'Pasta with fresh seasonal vegetables',
     category: FOOD_CATEGORIES.LUNCH,
-    ingredients: ['pasta', 'calabacín', 'tomates cherry', 'pimientos', 'albahaca', 'aceite de oliva'],
+    ingredients: ['pasta', 'zucchini', 'cherry tomatoes', 'bell peppers', 'basil', 'olive oil'],
     nutritionalInfo: { calories: 380, protein: 14, carbs: 58, fat: 12 },
     preparationTime: 20,
     difficulty: 'easy',
@@ -95,10 +95,10 @@ export const mockFoods = [
 
   new Food({
     id: '7',
-    name: 'Yogur con Granola',
-    description: 'Yogur griego con granola casera y frutas del bosque',
+    name: 'Yogurt with Granola',
+    description: 'Greek yogurt with homemade granola and berries',
     category: FOOD_CATEGORIES.SNACK,
-    ingredients: ['yogur griego', 'granola', 'arándanos', 'frambuesas', 'miel'],
+    ingredients: ['greek yogurt', 'granola', 'blueberries', 'raspberries', 'honey'],
     nutritionalInfo: { calories: 280, protein: 15, carbs: 32, fat: 8 },
     preparationTime: 5,
     difficulty: 'easy',
@@ -110,10 +110,10 @@ export const mockFoods = [
 
   new Food({
     id: '8',
-    name: 'Tacos de Pescado',
-    description: 'Tacos con pescado a la parrilla y salsa de mango',
+    name: 'Fish Tacos',
+    description: 'Tacos with grilled fish and mango salsa',
     category: FOOD_CATEGORIES.LUNCH,
-    ingredients: ['pescado blanco', 'tortillas', 'repollo', 'mango', 'cilantro', 'lima'],
+    ingredients: ['white fish', 'tortillas', 'cabbage', 'mango', 'cilantro', 'lime'],
     nutritionalInfo: { calories: 350, protein: 28, carbs: 35, fat: 12 },
     preparationTime: 25,
     difficulty: 'medium',
@@ -124,28 +124,28 @@ export const mockFoods = [
   })
 ];
 
-// Menú semanal de ejemplo
+// Sample weekly menu
 export const mockWeeklyMenu = new WeeklyMenu({
   id: 'week-1',
   weekStartDate: new Date('2024-01-15'),
-  name: 'Menú Saludable Enero',
-  description: 'Menú balanceado enfocado en comidas nutritivas y frescas',
+  name: 'Healthy January Menu',
+  description: 'Balanced menu focused on nutritious and fresh meals',
   meals: {
     monday: {
-      breakfast: '3', // Avena con Frutas
-      lunch: '1', // Ensalada Mediterránea
-      dinner: '2', // Salmón a la Plancha
-      snack: '7' // Yogur con Granola
+      breakfast: '3', // Oatmeal with Fruits
+      lunch: '1', // Mediterranean Salad
+      dinner: '2', // Grilled Salmon
+      snack: '7' // Yogurt with Granola
     },
     tuesday: {
       breakfast: '3',
       lunch: '6', // Pasta Primavera
-      dinner: '4', // Pollo al Curry
-      beverage: '5' // Smoothie Verde
+      dinner: '4', // Chicken Curry
+      beverage: '5' // Green Smoothie
     },
     wednesday: {
       breakfast: '7',
-      lunch: '8', // Tacos de Pescado
+      lunch: '8', // Fish Tacos
       dinner: '2',
       snack: '5'
     },
@@ -173,7 +173,7 @@ export const mockWeeklyMenu = new WeeklyMenu({
   isActive: true
 });
 
-// Función para obtener sugerencias basadas en preferencias
+// Function to get suggestions based on preferences
 export const getSuggestions = (preferences = {}) => {
   const { 
     category, 
@@ -184,19 +184,19 @@ export const getSuggestions = (preferences = {}) => {
   } = preferences;
 
   return mockFoods.filter(food => {
-    // Filtrar por categoría
+    // Filter by category
     if (category && food.category !== category) return false;
     
-    // Filtrar por tags
+    // Filter by tags
     if (tags.length > 0 && !tags.some(tag => food.tags.includes(tag))) return false;
     
-    // Filtrar por tiempo de preparación
+    // Filter by preparation time
     if (maxPreparationTime && food.preparationTime > maxPreparationTime) return false;
     
-    // Filtrar por dificultad
+    // Filter by difficulty
     if (difficulty && food.difficulty !== difficulty) return false;
     
-    // Excluir ingredientes no deseados
+    // Exclude unwanted ingredients
     if (excludeIngredients.length > 0) {
       const hasExcludedIngredient = excludeIngredients.some(ingredient => 
         food.ingredients.some(foodIngredient => 
@@ -210,7 +210,7 @@ export const getSuggestions = (preferences = {}) => {
   });
 };
 
-// Función para generar menú automático
+// Function to generate automatic menu
 export const generateWeeklyMenu = (preferences = {}) => {
   const breakfasts = getSuggestions({ ...preferences, category: FOOD_CATEGORIES.BREAKFAST });
   const lunches = getSuggestions({ ...preferences, category: FOOD_CATEGORIES.LUNCH });
@@ -230,8 +230,8 @@ export const generateWeeklyMenu = (preferences = {}) => {
   return new WeeklyMenu({
     id: `generated-${Date.now()}`,
     weekStartDate: new Date(),
-    name: 'Menú Generado Automáticamente',
-    description: 'Menú creado basado en tus preferencias',
+    name: 'Automatically Generated Menu',
+    description: 'Menu created based on your preferences',
     meals
   });
 };

@@ -86,7 +86,7 @@ function Header({ onMenuClick }) {
         }}>
           <TextField
             fullWidth
-            placeholder="Buscar comidas por nombre, ingredientes..."
+            placeholder="Search foods by name, ingredients..."
             variant="outlined"
             value={searchQuery}
             onChange={handleSearchChange}

@@ -54,7 +54,7 @@ function MenusPage() {
   const handleCreateMenu = () => {
     const today = new Date();
     const monday = new Date(today);
-    monday.setDate(today.getDate() - today.getDay() + 1); // Siguiente lunes
+    monday.setDate(today.getDate() - today.getDay() + 1); // Next Monday
     
     setMenuForm({
       name: '',
@@ -67,7 +67,7 @@ function MenusPage() {
   const handleGenerateAutoMenu = () => {
     try {
       const newMenu = generateAutoMenu({
-        // Preferencias por defecto
+        // Default preferences
         tags: ['healthy'],
         maxPreparationTime: 60
       });
@@ -75,18 +75,18 @@ function MenusPage() {
       setSelectedMenu(newMenu);
       setShowMenuView(true);
     } catch (err) {
-      setError('Error al generar el menú automático');
+      setError('Error generating automatic menu');
     }
   };
 
   const handleSaveMenu = () => {
     if (!menuForm.name.trim()) {
-      setError('El nombre del menú es requerido');
+      setError('Menu name is required');
       return;
     }
     
     if (!menuForm.weekStartDate) {
-      setError('La fecha de inicio es requerida');
+      setError('Start date is required');
       return;
     }
 
@@ -96,7 +96,7 @@ function MenusPage() {
         name: menuForm.name.trim(),
         description: menuForm.description.trim(),
         weekStartDate: new Date(menuForm.weekStartDate),
-        isActive: weeklyMenus.length === 0 // Primer menú es activo por defecto
+        isActive: weeklyMenus.length === 0 // First menu is active by default
       });
 
       addWeeklyMenu(newMenu);
@@ -108,7 +108,7 @@ function MenusPage() {
       setShowCreateDialog(false);
       setError('');
     } catch (err) {
-      setError('Error al crear el menú');
+      setError('Error creating menu');
     }
   };
 
@@ -128,13 +128,13 @@ function MenusPage() {
   };
 
   const handleSetActive = (menu) => {
-    // Desactivar el menú actual
+    // Deactivate current menu
     if (currentWeeklyMenu) {
       const updatedCurrentMenu = { ...currentWeeklyMenu, isActive: false };
       updateWeeklyMenu(updatedCurrentMenu);
     }
     
-    // Activar el nuevo menú
+    // Activate new menu
     const updatedMenu = { ...menu, isActive: true };
     updateWeeklyMenu(updatedMenu);
     setCurrentWeeklyMenu(updatedMenu);
@@ -166,7 +166,7 @@ function MenusPage() {
               }}
             >
               <CalendarToday sx={{ mr: 2, verticalAlign: 'middle' }} />
-              Menús Semanales
+              Weekly Menus
             </Typography>
             
             <Box sx={{ display: 'flex', gap: 2 }}>
@@ -183,7 +183,7 @@ function MenusPage() {
                   }
                 }}
               >
-                Generar Automático
+                Generate Automatic
               </Button>
               
               <Button
@@ -195,7 +195,7 @@ function MenusPage() {
                   '&:hover': { backgroundColor: '#5C8A4A' }
                 }}
               >
-                Nuevo Menú
+                New Menu
               </Button>
             </Box>
           </Box>
@@ -207,12 +207,12 @@ function MenusPage() {
               maxWidth: 800
             }}
           >
-            Crea y gestiona menús semanales para organizar tus comidas. Puedes generar menús automáticamente 
-            basados en tus preferencias o crear menús personalizados asignando comidas específicas a cada día.
+            Create and manage weekly menus to organize your meals. You can generate menus automatically 
+            based on your preferences or create custom menus by assigning specific foods to each day.
           </Typography>
         </Box>
 
-        {/* Menú actual destacado */}
+        {/* Featured current menu */}
         {currentWeeklyMenu && (
           <Box sx={{ mb: 6 }}>
             <Typography 
@@ -223,7 +223,7 @@ function MenusPage() {
                 mb: 3
               }}
             >
-              📅 Menú Activo - {formatDate(currentWeeklyMenu.weekStartDate)}
+              📅 Active Menu - {formatDate(currentWeeklyMenu.weekStartDate)}
             </Typography>
             
             <Card sx={{ 
@@ -242,7 +242,7 @@ function MenusPage() {
           </Box>
         )}
 
-        {/* Lista de todos los menús */}
+        {/* List of all menus */}
         <Box sx={{ mb: 4 }}>
           <Typography 
             variant="h5" 
@@ -252,16 +252,16 @@ function MenusPage() {
               mb: 3
             }}
           >
-            Todos los Menús ({weeklyMenus.length})
+            All Menus ({weeklyMenus.length})
           </Typography>
           
           {weeklyMenus.length === 0 ? (
             <Card sx={{ p: 6, textAlign: 'center', backgroundColor: '#FFFFFF' }}>
               <Typography variant="h6" sx={{ color: '#7A8471', mb: 2 }}>
-                Aún no tienes menús semanales
+                You don't have weekly menus yet
               </Typography>
               <Typography variant="body2" sx={{ color: '#7A8471', mb: 4 }}>
-                Crea tu primer menú semanal para empezar a organizar tus comidas
+                Create your first weekly menu to start organizing your meals
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
                 <Button
@@ -273,7 +273,7 @@ function MenusPage() {
                     '&:hover': { backgroundColor: '#5C8A4A' }
                   }}
                 >
-                  Crear Primer Menú
+                  Create First Menu
                 </Button>
                 <Button
                   variant="outlined"
@@ -284,7 +284,7 @@ function MenusPage() {
                     color: '#7FB069'
                   }}
                 >
-                  Generar Automáticamente
+                  Generate Automatically
                 </Button>
               </Box>
             </Card>
@@ -311,7 +311,7 @@ function MenusPage() {
                           fontSize: '0.75rem'
                         }}
                       >
-                        Activar Menú
+                        Activate Menu
                       </Button>
                     </Box>
                   )}
@@ -321,7 +321,7 @@ function MenusPage() {
           )}
         </Box>
 
-        {/* FAB para crear menú */}
+        {/* FAB to create menu */}
         <Fab
           color="primary"
           aria-label="add menu"
@@ -337,7 +337,7 @@ function MenusPage() {
           <Add />
         </Fab>
 
-        {/* Dialog para crear menú */}
+        {/* Dialog to create menu */}
         <Dialog
           open={showCreateDialog}
           onClose={() => setShowCreateDialog(false)}
@@ -345,7 +345,7 @@ function MenusPage() {
           fullWidth
         >
           <DialogTitle>
-            Crear Nuevo Menú Semanal
+            Create New Weekly Menu
           </DialogTitle>
           
           <DialogContent sx={{ pt: 2 }}>
@@ -359,10 +359,10 @@ function MenusPage() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Nombre del menú"
+                  label="Menu name"
                   value={menuForm.name}
                   onChange={(e) => setMenuForm(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="ej: Menú Saludable Febrero"
+                  placeholder="e.g: Healthy Menu February"
                   required
                 />
               </Grid>
@@ -370,19 +370,19 @@ function MenusPage() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Descripción (opcional)"
+                  label="Description (optional)"
                   multiline
                   rows={3}
                   value={menuForm.description}
                   onChange={(e) => setMenuForm(prev => ({ ...prev, description: e.target.value }))}
-                  placeholder="Describe el enfoque de este menú..."
+                  placeholder="Describe the focus of this menu..."
                 />
               </Grid>
               
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Fecha de inicio (Lunes)"
+                  label="Start date (Monday)"
                   type="date"
                   value={menuForm.weekStartDate}
                   onChange={(e) => setMenuForm(prev => ({ ...prev, weekStartDate: e.target.value }))}
@@ -400,7 +400,7 @@ function MenusPage() {
               onClick={() => setShowCreateDialog(false)}
               sx={{ color: '#7A8471' }}
             >
-              Cancelar
+              Cancel
             </Button>
             <Button 
               onClick={handleSaveMenu}
@@ -410,12 +410,12 @@ function MenusPage() {
                 '&:hover': { backgroundColor: '#5C8A4A' }
               }}
             >
-              Crear Menú
+              Create Menu
             </Button>
           </DialogActions>
         </Dialog>
 
-        {/* Dialog para ver/editar menú completo */}
+        {/* Dialog to view/edit complete menu */}
         <Dialog
           open={showMenuView}
           onClose={() => setShowMenuView(false)}
@@ -431,14 +431,14 @@ function MenusPage() {
             alignItems: 'center' 
           }}>
             <Typography variant="h5" sx={{ color: '#2F4F2F', fontWeight: 600 }}>
-              {selectedMenu?.name || 'Menú Semanal'}
+              {selectedMenu?.name || 'Weekly Menu'}
             </Typography>
             <Box>
               <Button
                 startIcon={<Edit />}
                 sx={{ mr: 2, color: '#7FB069' }}
               >
-                Modo Edición
+                Edit Mode
               </Button>
             </Box>
           </DialogTitle>
@@ -458,7 +458,7 @@ function MenusPage() {
               onClick={() => setShowMenuView(false)}
               sx={{ color: '#7A8471' }}
             >
-              Cerrar
+              Close
             </Button>
           </DialogActions>
         </Dialog>

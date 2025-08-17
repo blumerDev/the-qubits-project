@@ -59,35 +59,35 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
   };
 
   const handleDeleteFood = (foodId) => {
-    if (window.confirm('¿Estás seguro de que quieres eliminar esta comida?')) {
+    if (window.confirm('Are you sure you want to delete this food?')) {
       deleteFood(foodId);
     }
   };
 
   const getCategoryLabel = (category) => {
     const labels = {
-      breakfast: 'Desayuno',
-      lunch: 'Almuerzo',
-      dinner: 'Cena',
+      breakfast: 'Breakfast',
+      lunch: 'Lunch',
+      dinner: 'Dinner',
       snack: 'Snack',
-      dessert: 'Postre',
-      beverage: 'Bebida'
+      dessert: 'Dessert',
+      beverage: 'Beverage'
     };
     return labels[category] || category;
   };
 
   const getTagLabel = (tag) => {
     const labels = {
-      'vegetarian': 'Vegetariano',
-      'vegan': 'Vegano',
-      'gluten-free': 'Sin Gluten',
-      'dairy-free': 'Sin Lácteos',
-      'low-carb': 'Bajo en Carbohidratos',
-      'high-protein': 'Alto en Proteínas',
-      'quick': 'Rápido',
-      'healthy': 'Saludable',
+      'vegetarian': 'Vegetarian',
+      'vegan': 'Vegan',
+      'gluten-free': 'Gluten Free',
+      'dairy-free': 'Dairy Free',
+      'low-carb': 'Low Carb',
+      'high-protein': 'High Protein',
+      'quick': 'Quick',
+      'healthy': 'Healthy',
       'comfort': 'Comfort Food',
-      'spicy': 'Picante'
+      'spicy': 'Spicy'
     };
     return labels[tag] || tag;
   };
@@ -102,7 +102,7 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
         mb: 3 
       }}>
         <Typography variant="h4" sx={{ color: '#2F4F2F', fontWeight: 600 }}>
-          Comidas ({filteredFoods.length})
+          Foods ({filteredFoods.length})
         </Typography>
         
         {showActions && (
@@ -115,16 +115,16 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
               '&:hover': { backgroundColor: '#5C8A4A' }
             }}
           >
-            Agregar Comida
+            Add Food
           </Button>
         )}
       </Box>
 
-      {/* Búsqueda */}
+      {/* Search */}
       <Box sx={{ mb: 3 }}>
         <TextField
           fullWidth
-          placeholder="Buscar comidas por nombre, descripción o ingredientes..."
+          placeholder="Search foods by name, description or ingredients..."
           value={searchQuery}
           onChange={handleSearchChange}
           InputProps={{
@@ -141,7 +141,7 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
                   onClick={() => setShowFilters(!showFilters)}
                   sx={{ color: '#7FB069' }}
                 >
-                  Filtros
+                  Filters
                 </Button>
               </InputAdornment>
             ),
@@ -154,20 +154,20 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
         />
       </Box>
 
-      {/* Panel de Filtros */}
+      {/* Filters Panel */}
       <Collapse in={showFilters}>
         <Paper sx={{ p: 3, mb: 3, backgroundColor: '#F8FDF6' }}>
           <Grid container spacing={3}>
-            {/* Categoría */}
+            {/* Category */}
             <Grid item xs={12} sm={6} md={3}>
               <FormControl fullWidth size="small">
-                <InputLabel>Categoría</InputLabel>
+                <InputLabel>Category</InputLabel>
                 <Select
                   value={filters.category || ''}
-                  label="Categoría"
+                  label="Category"
                   onChange={(e) => handleFilterChange('category', e.target.value)}
                 >
-                  <MenuItem value="">Todas</MenuItem>
+                  <MenuItem value="">All</MenuItem>
                   {Object.values(FOOD_CATEGORIES).map((category) => (
                     <MenuItem key={category} value={category}>
                       {getCategoryLabel(category)}
@@ -177,29 +177,29 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
               </FormControl>
             </Grid>
 
-            {/* Dificultad */}
+            {/* Difficulty */}
             <Grid item xs={12} sm={6} md={3}>
               <FormControl fullWidth size="small">
-                <InputLabel>Dificultad</InputLabel>
+                <InputLabel>Difficulty</InputLabel>
                 <Select
                   value={filters.difficulty || ''}
-                  label="Dificultad"
+                  label="Difficulty"
                   onChange={(e) => handleFilterChange('difficulty', e.target.value)}
                 >
-                  <MenuItem value="">Todas</MenuItem>
-                  <MenuItem value="easy">Fácil</MenuItem>
-                  <MenuItem value="medium">Medio</MenuItem>
-                  <MenuItem value="hard">Difícil</MenuItem>
+                  <MenuItem value="">All</MenuItem>
+                  <MenuItem value="easy">Easy</MenuItem>
+                  <MenuItem value="medium">Medium</MenuItem>
+                  <MenuItem value="hard">Hard</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
 
-            {/* Tiempo máximo */}
+            {/* Maximum time */}
             <Grid item xs={12} sm={6} md={3}>
               <TextField
                 fullWidth
                 size="small"
-                label="Tiempo máximo (min)"
+                label="Maximum time (min)"
                 type="number"
                 value={filters.maxPreparationTime || ''}
                 onChange={(e) => handleFilterChange('maxPreparationTime', 
@@ -208,7 +208,7 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
               />
             </Grid>
 
-            {/* Botón limpiar filtros */}
+            {/* Clear filters button */}
             <Grid item xs={12} sm={6} md={3}>
               <Button
                 fullWidth
@@ -220,14 +220,14 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
                   color: '#7FB069'
                 }}
               >
-                Limpiar Filtros
+                Clear Filters
               </Button>
             </Grid>
 
             {/* Tags */}
             <Grid item xs={12}>
               <Typography variant="subtitle2" sx={{ mb: 1, color: '#2F4F2F' }}>
-                Etiquetas:
+                Tags:
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {Object.values(FOOD_TAGS).map((tag) => (
@@ -253,7 +253,7 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
         </Paper>
       </Collapse>
 
-      {/* Lista de comidas */}
+      {/* Food list */}
       {filteredFoods.length === 0 ? (
         <Box sx={{ 
           textAlign: 'center', 
@@ -261,10 +261,10 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
           color: '#7A8471'
         }}>
           <Typography variant="h6" sx={{ mb: 1 }}>
-            No se encontraron comidas
+            No foods found
           </Typography>
           <Typography variant="body2">
-            Intenta ajustar los filtros o agregar nuevas comidas
+            Try adjusting the filters or adding new foods
           </Typography>
         </Box>
       ) : (
@@ -283,7 +283,7 @@ function FoodList({ onAddFood, onEditFood, showActions = false, onSelectFood }) 
         </Grid>
       )}
 
-      {/* FAB para agregar comida */}
+      {/* FAB to add food */}
       {showActions && (
         <Fab
           color="primary"

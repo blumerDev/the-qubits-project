@@ -53,7 +53,7 @@ function HomePage() {
   const menuCategories = [
     { 
       icon: <LocalPizza sx={{ fontSize: 40 }} />, 
-      name: 'Desayuno',
+      name: 'Breakfast',
       category: FOOD_CATEGORIES.BREAKFAST,
       color: '#7FB069',
       bgColor: 'rgba(127, 176, 105, 0.1)',
@@ -61,7 +61,7 @@ function HomePage() {
     },
     { 
       icon: <Fastfood sx={{ fontSize: 40 }} />, 
-      name: 'Almuerzo',
+      name: 'Lunch',
       category: FOOD_CATEGORIES.LUNCH,
       color: '#7FB069',
       bgColor: '#7FB069',
@@ -69,7 +69,7 @@ function HomePage() {
     },
     { 
       icon: <RamenDining sx={{ fontSize: 40 }} />, 
-      name: 'Cena',
+      name: 'Dinner',
       category: FOOD_CATEGORIES.DINNER,
       color: '#7FB069',
       bgColor: 'rgba(127, 176, 105, 0.1)',
@@ -77,7 +77,7 @@ function HomePage() {
     },
     { 
       icon: <LocalDrink sx={{ fontSize: 40 }} />, 
-      name: 'Bebidas',
+      name: 'Beverages',
       category: FOOD_CATEGORIES.BEVERAGE,
       color: '#7FB069',
       bgColor: 'rgba(127, 176, 105, 0.1)',
@@ -93,7 +93,7 @@ function HomePage() {
     },
     { 
       icon: <DinnerDining sx={{ fontSize: 40 }} />, 
-      name: 'Postres',
+      name: 'Desserts',
       category: FOOD_CATEGORIES.DESSERT,
       color: '#7FB069',
       bgColor: 'rgba(127, 176, 105, 0.1)',
@@ -201,7 +201,7 @@ function HomePage() {
                     mx: { xs: 'auto', md: 0 },
                   }}
                 >
-                  Discover delicious and healthy food options crafted with love and care.
+                  Plan your weekly meals and maintain a healthy and organized diet.
                 </Typography>
                 <Button
                   variant="contained"
@@ -222,7 +222,7 @@ function HomePage() {
                   }}
                   onClick={handleExploreAllFoods}
                 >
-                  Explorar Comidas
+                  Explore Foods
                 </Button>
               </Box>
             </Grid>
@@ -319,90 +319,13 @@ function HomePage() {
                 },
               }}
             >
-              Ver Todas las Comidas por Categoría
+              View All Foods by Category
             </Button>
           </Box>
         </Box>
 
-        {/* Our Menus Section */}
-        <Box sx={{ py: 8 }}>
-          <Typography
-            variant="h2"
-            sx={{
-              textAlign: 'center',
-              mb: 6,
-              color: '#2F4F2F',
-              fontSize: { xs: '2rem', md: '2.5rem' },
-            }}
-          >
-            Our Menus
-          </Typography>
-          <Grid container spacing={4} justifyContent="center">
-            {menuCategories.map((category) => (
-              <Grid item xs={6} sm={4} md={2} key={category.name}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                    },
-                  }}
-                  onClick={() => handleCategoryClick(category.category)}
-                >
-                  <Box
-                    sx={{
-                      width: 80,
-                      height: 80,
-                      borderRadius: 3,
-                      backgroundColor: category.bgColor,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      mb: 2,
-                      color: category.bgColor === '#7FB069' ? '#ffffff' : category.color,
-                      boxShadow: category.bgColor === '#7FB069' ? '0 4px 15px rgba(127, 176, 105, 0.3)' : 'none',
-                      position: 'relative',
-                    }}
-                  >
-                    {category.icon}
-                    {category.count > 0 && (
-                      <Chip
-                        label={category.count}
-                        size="small"
-                        sx={{
-                          position: 'absolute',
-                          top: -8,
-                          right: -8,
-                          backgroundColor: '#F44336',
-                          color: 'white',
-                          fontSize: '0.7rem',
-                          height: 20,
-                          minWidth: 20,
-                        }}
-                      />
-                    )}
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: '#2F4F2F',
-                      fontWeight: 500,
-                      textAlign: 'center',
-                    }}
-                  >
-                    {category.name}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
 
-        {/* Menú Semanal Actual */}
+        {/* Current Weekly Menu */}
         {currentWeeklyMenu && (
           <Box sx={{ py: 8 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
@@ -414,7 +337,7 @@ function HomePage() {
                 }}
               >
                 <CalendarToday sx={{ mr: 2, verticalAlign: 'middle' }} />
-                Menú de la Semana
+                Weekly Menu
               </Typography>
               <Button
                 variant="outlined"
@@ -425,7 +348,7 @@ function HomePage() {
                   color: '#7FB069'
                 }}
               >
-                Ver Completo
+                View Complete
               </Button>
             </Box>
             
@@ -436,7 +359,7 @@ function HomePage() {
           </Box>
         )}
 
-        {/* Comidas Mejor Valoradas */}
+        {/* Top Rated Foods */}
         <Box sx={{ py: 8 }}>
           <Typography
             variant="h2"
@@ -448,7 +371,7 @@ function HomePage() {
             }}
           >
             <TrendingUp sx={{ mr: 2, verticalAlign: 'middle' }} />
-            Comidas Mejor Valoradas
+            Top Rated Foods
           </Typography>
           <Typography
             variant="body1"
@@ -460,7 +383,7 @@ function HomePage() {
               mx: 'auto',
             }}
           >
-            Descubre las comidas favoritas de nuestra comunidad, seleccionadas por su sabor excepcional y calidad nutricional.
+            Discover our community's favorite foods, selected for their exceptional taste and nutritional quality.
           </Typography>
           
           {topRatedFoods.length > 0 ? (
@@ -481,10 +404,10 @@ function HomePage() {
               color: '#7A8471'
             }}>
               <Typography variant="h6" sx={{ mb: 1 }}>
-                Aún no hay comidas valoradas
+                No rated foods yet
               </Typography>
               <Typography variant="body2">
-                ¡Sé el primero en valorar nuestras deliciosas comidas!
+                Be the first to rate our delicious foods!
               </Typography>
             </Box>
           )}
@@ -509,7 +432,7 @@ function HomePage() {
                   },
                 }}
               >
-                Explorar Todas las Comidas
+                Explore All Foods
               </Button>
             </Box>
           )}
@@ -531,7 +454,7 @@ function HomePage() {
                 fontSize: { xs: '1.5rem', md: '2rem' },
               }}
             >
-              Nuestra Comunidad Alimentaria
+              Our Food Community
             </Typography>
             
             <Grid container spacing={4}>
@@ -545,7 +468,7 @@ function HomePage() {
                     {stats.totalFoods}
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#7A8471' }}>
-                    Comidas Disponibles
+                    Available Foods
                   </Typography>
                 </Box>
               </Grid>
@@ -560,7 +483,7 @@ function HomePage() {
                     {stats.weeklyMenu?.completionPercentage.toFixed(0) || 0}%
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#7A8471' }}>
-                    Menú Completo
+                    Complete Menu
                   </Typography>
                 </Box>
               </Grid>
@@ -575,7 +498,7 @@ function HomePage() {
                     {Object.keys(stats.categories).length}
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#7A8471' }}>
-                    Categorías
+                    Categories
                   </Typography>
                 </Box>
               </Grid>
@@ -590,7 +513,7 @@ function HomePage() {
                     {Object.keys(stats.tags).length}
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#7A8471' }}>
-                    Etiquetas
+                    Tags
                   </Typography>
                 </Box>
               </Grid>

@@ -57,7 +57,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
     setSelectedDay(day);
     setSelectedCategory(category);
     
-    // Generar sugerencias para esta categoría
+    // Generate suggestions for this category
     const daysSuggestions = generateSuggestions({ category });
     setSuggestions(daysSuggestions);
     setShowFoodDialog(true);
@@ -91,7 +91,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
   };
 
   const handleAutoGenerate = () => {
-    if (window.confirm('¿Generar automáticamente el menú completo? Esto reemplazará las comidas existentes.')) {
+    if (window.confirm('Generate complete menu automatically? This will replace existing meals.')) {
       const newMenu = generateAutoMenu();
       setCurrentMenu(newMenu);
       
@@ -103,12 +103,12 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
 
   const getCategoryLabel = (category) => {
     const labels = {
-      breakfast: 'Desayuno',
-      lunch: 'Almuerzo',
-      dinner: 'Cena',
+      breakfast: 'Breakfast',
+      lunch: 'Lunch',
+      dinner: 'Dinner',
       snack: 'Snack',
-      dessert: 'Postre',
-      beverage: 'Bebida'
+      dessert: 'Dessert',
+      beverage: 'Beverage'
     };
     return labels[category] || category;
   };
@@ -129,11 +129,11 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
 
   return (
     <Box>
-      {/* Header con estadísticas */}
+      {/* Header with statistics */}
       <Paper sx={{ p: 3, mb: 4, backgroundColor: '#F8FDF6' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Typography variant="h4" sx={{ color: '#2F4F2F', fontWeight: 600 }}>
-            {currentMenu.name || 'Menú Semanal'}
+            {currentMenu.name || 'Weekly Menu'}
           </Typography>
           
           {!readOnly && (
@@ -146,7 +146,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
                 '&:hover': { backgroundColor: '#5C8A4A' }
               }}
             >
-              Generar Automático
+              Generate Automatic
             </Button>
           )}
         </Box>
@@ -158,7 +158,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
                 {stats.totalMeals}
               </Typography>
               <Typography variant="body2" sx={{ color: '#7A8471' }}>
-                Comidas Asignadas
+                Assigned Meals
               </Typography>
             </Box>
           </Grid>
@@ -169,7 +169,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
                 {stats.completeDays}
               </Typography>
               <Typography variant="body2" sx={{ color: '#7A8471' }}>
-                Días Completos
+                Complete Days
               </Typography>
             </Box>
           </Grid>
@@ -180,7 +180,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
                 {Math.round(stats.completionPercentage)}%
               </Typography>
               <Typography variant="body2" sx={{ color: '#7A8471' }}>
-                Progreso
+                Progress
               </Typography>
             </Box>
           </Grid>
@@ -191,14 +191,14 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
                 21
               </Typography>
               <Typography variant="body2" sx={{ color: '#7A8471' }}>
-                Comidas Objetivo
+                Target Meals
               </Typography>
             </Box>
           </Grid>
         </Grid>
       </Paper>
 
-      {/* Menú semanal */}
+      {/* Weekly menu */}
       <Grid container spacing={2}>
         {Object.keys(DAY_LABELS).map((day) => {
           const dayMeals = currentMenu.getDayMeals(day);
@@ -214,7 +214,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
                     </Typography>
                     
                     <Chip
-                      label={isComplete ? 'Completo' : 'Pendiente'}
+                      label={isComplete ? 'Complete' : 'Pending'}
                       size="small"
                       color={isComplete ? 'success' : 'default'}
                       sx={{
@@ -300,7 +300,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
                                 }}>
                                   <RestaurantMenu sx={{ fontSize: 40, mb: 1, opacity: 0.5 }} />
                                   <Typography variant="body2">
-                                    {readOnly ? 'Sin asignar' : 'Hacer clic para agregar'}
+                                    {readOnly ? 'Unassigned' : 'Click to add'}
                                   </Typography>
                                 </Box>
                               )}
@@ -317,7 +317,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
         })}
       </Grid>
 
-      {/* Dialog para seleccionar comida */}
+      {/* Dialog to select food */}
       <Dialog
         open={showFoodDialog}
         onClose={() => setShowFoodDialog(false)}
@@ -326,7 +326,7 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
       >
         <DialogTitle>
           <Typography variant="h6">
-            Seleccionar {getCategoryLabel(selectedCategory)} para {selectedDay ? DAY_LABELS[selectedDay] : ''}
+            Select {getCategoryLabel(selectedCategory)} for {selectedDay ? DAY_LABELS[selectedDay] : ''}
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -345,17 +345,17 @@ function WeeklyMenuView({ weeklyMenu, onSave, readOnly = false }) {
           ) : (
             <Box sx={{ py: 4, textAlign: 'center', color: '#7A8471' }}>
               <Typography variant="h6" sx={{ mb: 1 }}>
-                No hay sugerencias disponibles
+                No suggestions available
               </Typography>
               <Typography variant="body2">
-                No se encontraron comidas para esta categoría
+                No foods found for this category
               </Typography>
             </Box>
           )}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setShowFoodDialog(false)}>
-            Cancelar
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
