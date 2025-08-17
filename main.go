@@ -2,12 +2,12 @@ package main
 
 import (
 	"net/http"
+	"the-quibits-project/food/infra"
 )
 
 func main() {
-	// Register the handler
-	//http.HandleFunc("/", )
 
-	// Start the server
+	http.HandleFunc("/", infra.Ping)
+
 	http.ListenAndServe(":8080", nil)
 }
