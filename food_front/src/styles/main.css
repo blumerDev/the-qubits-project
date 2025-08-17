@@ -1,0 +1,10 @@
+/* Archivo principal de estilos - Importa todo en orden */
+
+/* 1. Variables y configuración base */
+@import './base/variables.css';
+@import './base/reset.css';
+
+/* 2. Utilidades */
+@import './utils/utilities.css';
+
+/* 3. Componentes globales se importarán aquí cuando se creen */
