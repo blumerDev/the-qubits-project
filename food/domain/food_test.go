@@ -9,5 +9,5 @@ func TestShouldReturnInstanceOfFood(t *testing.T) {
 	food := NewFood("foo")
 
 	assert.NotNil(t, food)
-	assert.Equal(t, food.name, "foo")
+	assert.Equal(t, food.Name, "foo")
 }

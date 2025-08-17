@@ -1,13 +1,23 @@
 package main
 
 import (
+	"log/slog"
 	"net/http"
-	"the-quibits-project/food/infra"
+	"os"
+	"the-quibits-project/food/infra/rest"
 )
 
 func main() {
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	slog.SetDefault(logger)
 
-	http.HandleFunc("/", infra.Ping)
+	http.HandleFunc("/", rest.Ping)
 
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		slog.Error("Failed to start server", err)
+		panic(err)
+	}
+
+	slog.Info("Server listening on :8080")
 }
