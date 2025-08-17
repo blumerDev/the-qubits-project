@@ -10,17 +10,11 @@
 <!-- Mark the type of change with an [x] -->
 
 - [ ] 🐛 Bug fix
-
 - [ ] ✨ New feature 
-
 - [ ] 📚 Documentation update
-
 - [ ] 🎨 Code style/formatting changes
-
 - [ ] ♻️ Refactoring (no functional changes)
-
 - [ ] ⚡ Performance improvements
-
 - [ ] 🧪 Test updates
 
 ## 🧪 Testing
