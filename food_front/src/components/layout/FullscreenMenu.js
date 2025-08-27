@@ -15,6 +15,7 @@ import {
   Add,
   Star,
   ShoppingCart,
+  Person,
 } from '@mui/icons-material';
 
 function FullscreenMenu({ isOpen, onToggle }) {
@@ -68,6 +69,12 @@ function FullscreenMenu({ isOpen, onToggle }) {
       icon: <ShoppingCart />, 
       description: 'Supermarket',
       path: '/cart'
+    },
+    { 
+      text: 'USER', 
+      icon: <Person />, 
+      description: 'User Profile',
+      path: '/user'
     },
     { 
       text: 'RATINGS', 

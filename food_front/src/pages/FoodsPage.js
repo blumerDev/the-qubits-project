@@ -177,7 +177,7 @@ function FoodsPage() {
   return (
     <Box sx={{
       minHeight: '100vh',
-      backgroundColor: '#F8FDF6',
+      background: 'linear-gradient(135deg, #7FB069 0%, #9BB886 50%, #B8D4A3 100%)',
       py: 4
     }}>
       <Container maxWidth="xl">

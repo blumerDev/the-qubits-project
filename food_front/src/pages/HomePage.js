@@ -1,555 +1,512 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
   Grid,
-  Card,
-  CardMedia,
-  CardContent,
   Button,
   Container,
-  useTheme,
   Paper,
+  Card,
+  CardContent,
+  CardMedia,
+  Checkbox,
+  FormControlLabel,
   Chip,
   Dialog,
   DialogTitle,
   DialogContent,
-  IconButton
+  DialogActions,
+  TextField,
+  IconButton,
 } from '@mui/material';
 import {
-  LocalPizza,
-  Fastfood,
-  RamenDining,
-  LocalDrink,
   Restaurant,
-  DinnerDining,
-  TrendingUp,
+  LocalGroceryStore,
+  Lightbulb,
   CalendarToday,
+  Add,
   Close,
-  Visibility,
-  ArrowForward
 } from '@mui/icons-material';
 import { useFood } from '../context/FoodContext';
-import FoodCard from '../components/food/FoodCard';
-import WeeklyMenuCard from '../components/menu/WeeklyMenuCard';
-import { FOOD_CATEGORIES } from '../models/Food';
 
 function HomePage() {
-  const theme = useTheme();
   const navigate = useNavigate();
-  const { 
-    foods, 
-    currentWeeklyMenu, 
-    setFilters, 
-    generateSuggestions,
-    getStats 
-  } = useFood();
+  const { foods, addFood } = useFood();
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [newFood, setNewFood] = useState({
+    name: '',
+    description: '',
+    image: ''
+  });
   
-  const [selectedFood, setSelectedFood] = useState(null);
+  // Mock data for the meal prep layout
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate().toString().padStart(2, '0');
+  const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
   
-  const stats = getStats();
-
-  const menuCategories = [
-    { 
-      icon: <LocalPizza sx={{ fontSize: 40 }} />, 
-      name: 'Breakfast',
-      category: FOOD_CATEGORIES.BREAKFAST,
-      color: '#7FB069',
-      bgColor: 'rgba(127, 176, 105, 0.1)',
-      count: stats.categories[FOOD_CATEGORIES.BREAKFAST] || 0
-    },
-    { 
-      icon: <Fastfood sx={{ fontSize: 40 }} />, 
-      name: 'Lunch',
-      category: FOOD_CATEGORIES.LUNCH,
-      color: '#7FB069',
-      bgColor: '#7FB069',
-      count: stats.categories[FOOD_CATEGORIES.LUNCH] || 0
-    },
-    { 
-      icon: <RamenDining sx={{ fontSize: 40 }} />, 
-      name: 'Dinner',
-      category: FOOD_CATEGORIES.DINNER,
-      color: '#7FB069',
-      bgColor: 'rgba(127, 176, 105, 0.1)',
-      count: stats.categories[FOOD_CATEGORIES.DINNER] || 0
-    },
-    { 
-      icon: <LocalDrink sx={{ fontSize: 40 }} />, 
-      name: 'Beverages',
-      category: FOOD_CATEGORIES.BEVERAGE,
-      color: '#7FB069',
-      bgColor: 'rgba(127, 176, 105, 0.1)',
-      count: stats.categories[FOOD_CATEGORIES.BEVERAGE] || 0
-    },
-    { 
-      icon: <Restaurant sx={{ fontSize: 40 }} />, 
-      name: 'Snacks',
-      category: FOOD_CATEGORIES.SNACK,
-      color: '#7FB069',
-      bgColor: 'rgba(127, 176, 105, 0.1)',
-      count: stats.categories[FOOD_CATEGORIES.SNACK] || 0
-    },
-    { 
-      icon: <DinnerDining sx={{ fontSize: 40 }} />, 
-      name: 'Desserts',
-      category: FOOD_CATEGORIES.DESSERT,
-      color: '#7FB069',
-      bgColor: 'rgba(127, 176, 105, 0.1)',
-      count: stats.categories[FOOD_CATEGORIES.DESSERT] || 0
-    },
-  ];
-
-  // Obtener las comidas más populares (por rating)
-  const topRatedFoods = foods
-    .filter(food => food.rating > 0)
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 6);
-
-  const handleCategoryClick = (category) => {
-    setFilters({ category });
-    generateSuggestions({ category });
-    navigate('/foods'); // Navegar a la página de comidas con filtro aplicado
+  const weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  const mealTypes = ['breakfast', 'lunch', 'dinner'];
+  
+  const sampleMeals = {
+    monday: { breakfast: 'paleo pancakes', lunch: 'stuffed peppers', dinner: 'honey mustard chicken' },
+    tuesday: { breakfast: 'chia seed pudding', lunch: 'chickpea salad', dinner: 'chicken and rice' },
+    wednesday: { breakfast: 'sweet potato hash', lunch: 'zucchini fritters', dinner: 'cilantro lime chicken' },
+    thursday: { breakfast: 'paleo pancakes', lunch: 'stuffed peppers', dinner: 'honey mustard chicken' },
+    friday: { breakfast: 'chia seed pudding', lunch: 'chickpea salad', dinner: 'chicken and rice' },
+    saturday: { breakfast: 'sweet potato hash', lunch: 'zucchini fritters', dinner: 'cilantro lime chicken' },
+    sunday: { breakfast: 'paleo pancakes', lunch: 'stuffed peppers', dinner: 'honey mustard chicken' }
   };
 
-  const handleFoodClick = (food) => {
-    setSelectedFood(food);
+  const sampleRecipes = [
+    { name: 'paleo pancakes', image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&h=200&fit=crop' },
+    { name: 'chia seed pudding', image: 'https://images.unsplash.com/photo-1511909525232-61113c912358?w=300&h=200&fit=crop' },
+    { name: 'sweet potato hash', image: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&h=200&fit=crop' },
+    { name: 'stuffed peppers', image: 'https://images.unsplash.com/photo-1594756202469-9ff9799b2e4e?w=300&h=200&fit=crop' },
+    { name: 'chickpea salad', image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&h=200&fit=crop' },
+    { name: 'honey mustard chicken', image: 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=300&h=200&fit=crop' },
+    { name: 'cilantro lime chicken', image: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300&h=200&fit=crop' },
+    { name: 'zucchini fritters', image: 'https://images.unsplash.com/photo-1583023721587-94c22a4ffd5e?w=300&h=200&fit=crop' }
+  ];
+
+  const shoppingCategories = [
+    {
+      name: 'bakery + bread',
+      color: '#D2B48C',
+      items: ['rye bread', 'bagels', 'english muffins', 'etc.']
+    },
+    {
+      name: 'fruits + veggies', 
+      color: '#FF6B6B',
+      items: ['strawberries', 'cucumber', 'romain lettuce', 'etc.']
+    },
+    {
+      name: 'meat + toppings',
+      color: '#FF8E8E', 
+      items: ['turkey bacon', 'pepperoni', 'shredded cheese', 'etc.']
+    },
+    {
+      name: 'drinks + wine',
+      color: '#8B4B8B',
+      items: ['celsius', 'merlot', 'diet coke']
+    },
+    {
+      name: 'treats + snacks',
+      color: '#FFB347',
+      items: ['goldfish', 'gummy worms', 'popcorn']
+    },
+    {
+      name: 'milk + dairy',
+      color: '#F5DEB3',
+      items: ['oat milk', 'greek yogurt', 'coffee creamer']
+    }
+  ];
+
+  const handleAddFood = () => {
+    setShowAddDialog(true);
   };
 
   const handleCloseDialog = () => {
-    setSelectedFood(null);
+    setShowAddDialog(false);
+    setNewFood({ name: '', description: '', image: '' });
   };
 
-  const handleViewWeeklyMenu = () => {
-    navigate('/menus'); // Navegar directamente a la página de menús
+  const handleSaveFood = () => {
+    if (newFood.name.trim()) {
+      const foodData = {
+        id: `food-${Date.now()}`,
+        name: newFood.name.trim(),
+        description: newFood.description.trim(),
+        image: newFood.image || 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&h=200&fit=crop',
+        category: 'lunch',
+        ingredients: [],
+        nutritionalInfo: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+        preparationTime: 30,
+        difficulty: 'medium',
+        tags: [],
+        servings: 1,
+        rating: 0,
+        reviews: []
+      };
+      
+      addFood(foodData);
+      handleCloseDialog();
+    }
   };
 
-  const handleExploreAllFoods = () => {
-    navigate('/foods');
-  };
-
+  // Combine sample recipes with actual foods from context
+  const allRecipes = [
+    ...sampleRecipes,
+    ...foods.slice(0, 8) // Show first 8 foods from context
+  ];
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #A8D49A 0%, #7FB069 50%, #F8FDF6 100%)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Decorative Elements */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '10%',
-          left: '5%',
-          width: '200px',
-          height: '200px',
-          borderRadius: '50%',
-          background: 'rgba(255, 255, 255, 0.1)',
-          opacity: 0.5,
-        }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '60%',
-          right: '10%',
-          width: '150px',
-          height: '150px',
-          borderRadius: '50%',
-          background: 'rgba(255, 255, 255, 0.1)',
-          opacity: 0.3,
-        }}
-      />
-
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        {/* Hero Section */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            minHeight: '70vh',
-            py: 8,
-          }}
-        >
-          <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontSize: { xs: '3rem', md: '5rem', lg: '6rem' },
-                    fontWeight: 700,
-                    color: '#ffffff',
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
-                    mb: 2,
-                    lineHeight: 0.9,
-                  }}
-                >
-                  Let's Eat
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontSize: '1.25rem',
-                    color: 'rgba(255, 255, 255, 0.9)',
-                    mb: 4,
-                    maxWidth: 400,
-                    mx: { xs: 'auto', md: 0 },
-                  }}
-                >
-                  Plan your weekly meals and maintain a healthy and organized diet.
-                </Typography>
-                <Button
-                  variant="contained"
-                  size="large"
-                  sx={{
-                    backgroundColor: '#7FB069',
-                    color: '#ffffff',
-                    py: 2,
-                    px: 4,
-                    fontSize: '1.1rem',
-                    borderRadius: 6,
-                    boxShadow: '0 4px 20px rgba(127, 176, 105, 0.4)',
-                    '&:hover': {
-                      backgroundColor: '#5C8A4A',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 6px 25px rgba(127, 176, 105, 0.5)',
-                    },
-                  }}
-                  onClick={handleExploreAllFoods}
-                >
-                  Explore Foods
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  position: 'relative',
-                }}
-              >
-                <Box
-                  sx={{
-                    width: { xs: 300, md: 400 },
-                    height: { xs: 300, md: 400 },
-                    borderRadius: '50%',
-                    background: 'rgba(255, 255, 255, 0.9)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-                    position: 'relative',
-                  }}
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=350&h=350&fit=crop&crop=center"
-                    alt="Healthy Food Bowl"
-                    style={{
-                      width: '90%',
-                      height: '90%',
-                      borderRadius: '50%',
-                      objectFit: 'cover',
-                    }}
-                  />
-                  {/* Floating vegetables */}
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: '10%',
-                      right: '10%',
-                      fontSize: '2rem',
-                      animation: 'float 3s ease-in-out infinite',
-                      '@keyframes float': {
-                        '0%, 100%': { transform: 'translateY(0px)' },
-                        '50%': { transform: 'translateY(-10px)' },
-                      },
-                    }}
-                  >
-                    🥕
-                  </Box>
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      bottom: '15%',
-                      left: '5%',
-                      fontSize: '2rem',
-                      animation: 'float 3s ease-in-out infinite 1s',
-                    }}
-                  >
-                    🍅
-                  </Box>
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: '20%',
-                      left: '15%',
-                      fontSize: '1.5rem',
-                      animation: 'float 3s ease-in-out infinite 2s',
-                    }}
-                  >
-                    🥬
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-          
-          <Box sx={{ textAlign: 'center', mt: 4 }}>
-            <Button
-              variant="outlined"
-              size="large"
-              endIcon={<ArrowForward />}
-              onClick={handleExploreAllFoods}
-              sx={{
-                borderColor: '#7FB069',
-                color: '#7FB069',
-                px: 4,
-                py: 1.5,
-                fontSize: '1.1rem',
-                '&:hover': {
-                  backgroundColor: 'rgba(127, 176, 105, 0.08)',
-                  borderColor: '#5C8A4A',
-                  transform: 'translateY(-2px)',
-                },
-              }}
-            >
-              View All Foods by Category
-            </Button>
-          </Box>
+    <Box sx={{ 
+      minHeight: '100vh',
+      backgroundColor: '#f8f6f0',
+      p: { xs: 2, md: 4 }
+    }}>
+      <Container maxWidth="xl">
+        {/* Header */}
+        <Box sx={{ mb: 4 }}>
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              fontSize: { xs: '2.5rem', md: '3.5rem' },
+              fontWeight: 300,
+              color: '#2c2c2c',
+              mb: 1,
+              fontFamily: 'Georgia, serif'
+            }}
+          >
+            weekly meal prep ✧˖°
+          </Typography>
+          <Typography 
+            variant="body1" 
+            sx={{ 
+              fontStyle: 'italic',
+              color: '#666',
+              fontSize: '1rem'
+            }}
+          >
+            "you gotta nourish in order to flourish"
+          </Typography>
         </Box>
 
 
-        {/* Current Weekly Menu */}
-        {currentWeeklyMenu && (
-          <Box sx={{ py: 8 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-              <Typography
-                variant="h2"
-                sx={{
-                  color: '#2F4F2F',
-                  fontSize: { xs: '2rem', md: '2.5rem' },
-                }}
-              >
-                <CalendarToday sx={{ mr: 2, verticalAlign: 'middle' }} />
-                Weekly Menu
-              </Typography>
-              <Button
-                variant="outlined"
-                startIcon={<Visibility />}
-                onClick={handleViewWeeklyMenu}
-                sx={{
-                  borderColor: '#7FB069',
-                  color: '#7FB069'
-                }}
-              >
-                View Complete
-              </Button>
+        <Grid container spacing={5}>
+          {/* Left Column */}
+          <Grid item xs={12} md={3}>
+            {/* Digital Time Display - Two Tablets */}
+            <Box sx={{ mb: 4, display: 'flex', gap: 1 }}>
+              <Paper sx={{ px: 2, py: 8, backgroundColor: '#C8DDB5', textAlign: 'center', flex: 1 }}>
+                <Typography 
+                  variant="h1" 
+                  sx={{ 
+                    fontSize: '3.5rem', 
+                    fontWeight: 300, 
+                    color: 'white',
+                    lineHeight: 1
+                  }}
+                >
+                  {new Date().getHours().toString().padStart(2, '0')}
+                </Typography>
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: 'white',
+                    fontSize: '0.8rem',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  hours
+                </Typography>
+              </Paper>
+              
+              <Paper sx={{ px: 2, py: 8, backgroundColor: '#F4C2A1', textAlign: 'center', flex: 1 }}>
+                <Typography 
+                  variant="h1" 
+                  sx={{ 
+                    fontSize: '3.5rem', 
+                    fontWeight: 300, 
+                    color: 'white',
+                    lineHeight: 1
+                  }}
+                >
+                  {new Date().getMinutes().toString().padStart(2, '0')}
+                </Typography>
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: 'white',
+                    fontSize: '0.8rem',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  minutes
+                </Typography>
+              </Paper>
             </Box>
-            
-            <WeeklyMenuCard 
-              weeklyMenu={currentWeeklyMenu} 
-              onSelect={handleViewWeeklyMenu}
-            />
-          </Box>
-        )}
 
-        {/* Top Rated Foods */}
-        <Box sx={{ py: 8 }}>
-          <Typography
-            variant="h2"
-            sx={{
-              textAlign: 'center',
-              mb: 2,
-              color: '#2F4F2F',
-              fontSize: { xs: '2rem', md: '2.5rem' },
-            }}
-          >
-            <TrendingUp sx={{ mr: 2, verticalAlign: 'middle' }} />
-            Top Rated Foods
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              textAlign: 'center',
-              mb: 6,
-              color: '#7A8471',
-              maxWidth: 600,
-              mx: 'auto',
-            }}
-          >
-            Discover our community's favorite foods, selected for their exceptional taste and nutritional quality.
-          </Typography>
-          
-          {topRatedFoods.length > 0 ? (
-            <Grid container spacing={4} justifyContent="center">
-              {topRatedFoods.map((food) => (
-                <Grid item xs={12} sm={6} md={4} key={food.id}>
-                  <FoodCard
-                    food={food}
-                    onSelect={handleFoodClick}
-                  />
+            {/* Sample Image */}
+            <Paper sx={{ mb: 3, overflow: 'hidden' }}>
+              <Box 
+                sx={{
+                  height: 200,
+                  backgroundImage: 'url(https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              />
+            </Paper>
+
+            {/* Meal Prep Calendar */}
+            <Paper sx={{ p: 3, backgroundColor: '#F4C2A1' }}>
+              <Typography variant="h6" sx={{ color: '#2c2c2c', mb: 2, fontSize: '0.9rem' }}>
+                📅 meals prepped
+              </Typography>
+              {weekDays.map((day) => (
+                <FormControlLabel
+                  key={day}
+                  control={<Checkbox size="small" />}
+                  label={day}
+                  sx={{ 
+                    display: 'block',
+                    '& .MuiFormControlLabel-label': {
+                      fontSize: '0.85rem',
+                      color: '#2c2c2c'
+                    }
+                  }}
+                />
+              ))}
+            </Paper>
+          </Grid>
+
+          {/* Weekly Planner */}
+          <Grid item xs={12} md={9}>
+            <Paper sx={{ p: 3, mb: 4, backgroundColor: '#E8E8E8' }}>
+              <Typography variant="h6" sx={{ mb: 3, color: '#2c2c2c', fontSize: '0.9rem' }}>
+                📅 WEEKLY PLANNER
+              </Typography>
+              
+              <Grid container spacing={1}>
+                <Grid item xs={1.5}>
+                  <Box sx={{ height: 40 }} /> {/* Empty corner */}
+                </Grid>
+                {weekDays.map((day) => (
+                  <Grid item xs={1.5} key={day}>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        textAlign: 'center', 
+                        fontWeight: 500,
+                        fontSize: '0.75rem',
+                        textTransform: 'lowercase',
+                        color: '#2c2c2c'
+                      }}
+                    >
+                      {day}
+                    </Typography>
+                  </Grid>
+                ))}
+              </Grid>
+
+              {mealTypes.map((mealType) => (
+                <Grid container spacing={1} key={mealType} sx={{ mb: 1 }}>
+                  <Grid item xs={1.5}>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        fontSize: '0.75rem',
+                        textTransform: 'lowercase',
+                        color: '#2c2c2c',
+                        fontWeight: 500
+                      }}
+                    >
+                      {mealType}
+                    </Typography>
+                  </Grid>
+                  {weekDays.map((day) => (
+                    <Grid item xs={1.5} key={`${day}-${mealType}`}>
+                      <Box 
+                        sx={{ 
+                          backgroundColor: mealType === 'breakfast' ? '#F4C2A1' : 
+                                         mealType === 'lunch' ? '#C8DDB5' : '#E8C5E8',
+                          p: 1,
+                          borderRadius: 1,
+                          minHeight: 40
+                        }}
+                      >
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            fontSize: '0.65rem',
+                            color: '#2c2c2c',
+                            textAlign: 'center'
+                          }}
+                        >
+                          🥄 {sampleMeals[day]?.[mealType]}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  ))}
                 </Grid>
               ))}
-            </Grid>
-          ) : (
-            <Box sx={{ 
-              textAlign: 'center', 
-              py: 8,
-              color: '#7A8471'
-            }}>
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                No rated foods yet
-              </Typography>
-              <Typography variant="body2">
-                Be the first to rate our delicious foods!
-              </Typography>
-            </Box>
-          )}
-          
-          {topRatedFoods.length > 0 && (
-            <Box sx={{ textAlign: 'center', mt: 4 }}>
-              <Button
-                variant="outlined"
-                size="large"
-                endIcon={<ArrowForward />}
-                onClick={handleExploreAllFoods}
-                sx={{
-                  borderColor: '#7FB069',
-                  color: '#7FB069',
-                  px: 4,
-                  py: 1.5,
-                  fontSize: '1.1rem',
-                  '&:hover': {
-                    backgroundColor: 'rgba(127, 176, 105, 0.08)',
-                    borderColor: '#5C8A4A',
-                    transform: 'translateY(-2px)',
-                  },
-                }}
-              >
-                Explore All Foods
-              </Button>
-            </Box>
-          )}
-        </Box>
+            </Paper>
 
-        {/* Estadísticas Rápidas */}
-        <Box sx={{ py: 6 }}>
-          <Paper sx={{ 
-            p: 4, 
-            backgroundColor: '#F8FDF6',
-            borderRadius: 4
-          }}>
-            <Typography
-              variant="h3"
-              sx={{
-                textAlign: 'center',
-                mb: 4,
-                color: '#2F4F2F',
-                fontSize: { xs: '1.5rem', md: '2rem' },
-              }}
-            >
-              Our Food Community
-            </Typography>
-            
-            <Grid container spacing={4}>
-              <Grid item xs={6} md={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h2" sx={{ 
-                    color: '#7FB069', 
-                    fontWeight: 700,
-                    fontSize: { xs: '2rem', md: '3rem' }
-                  }}>
-                    {stats.totalFoods}
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#7A8471' }}>
-                    Available Foods
-                  </Typography>
-                </Box>
+            {/* Flavor Files */}
+            <Paper sx={{ p: 3, mb: 4 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <Typography variant="h6" sx={{ color: '#2c2c2c', fontSize: '0.9rem' }}>
+                  🥄 FLAVOR FILES
+                </Typography>
+                <Button
+                  onClick={handleAddFood}
+                  startIcon={<Add />}
+                  sx={{
+                    backgroundColor: '#C8DDB5',
+                    color: '#2c2c2c',
+                    fontSize: '0.7rem',
+                    textTransform: 'lowercase',
+                    px: 2,
+                    py: 0.5,
+                    minWidth: 'auto',
+                    '&:hover': {
+                      backgroundColor: '#A8C895',
+                    },
+                  }}
+                >
+                  add new
+                </Button>
+              </Box>
+              <Grid container spacing={2}>
+                {allRecipes.slice(0, 10).map((recipe, index) => (
+                  <Grid item xs={6} md={2.4} key={index}>
+                    <Card sx={{ cursor: 'pointer' }} onClick={() => navigate('/foods')}>
+                      <CardMedia
+                        component="img"
+                        height="120"
+                        image={recipe.image}
+                        alt={recipe.name}
+                      />
+                      <CardContent sx={{ p: 1 }}>
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            fontSize: '0.7rem',
+                            textAlign: 'center',
+                            color: '#2c2c2c'
+                          }}
+                        >
+                          🥄 {recipe.name}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
               </Grid>
-              
-              <Grid item xs={6} md={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h2" sx={{ 
-                    color: '#7FB069', 
-                    fontWeight: 700,
-                    fontSize: { xs: '2rem', md: '3rem' }
-                  }}>
-                    {stats.weeklyMenu?.completionPercentage.toFixed(0) || 0}%
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#7A8471' }}>
-                    Complete Menu
-                  </Typography>
-                </Box>
+            </Paper>
+
+            {/* Market Manifesto */}
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h6" sx={{ mb: 3, color: '#2c2c2c', fontSize: '0.9rem' }}>
+                🛒 MARKET MANIFESTO
+              </Typography>
+              <Grid container spacing={3}>
+                {shoppingCategories.map((category, index) => (
+                  <Grid item xs={12} md={4} key={index}>
+                    <Box sx={{ backgroundColor: category.color, p: 2, borderRadius: 2 }}>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          fontWeight: 500,
+                          mb: 2,
+                          fontSize: '0.8rem',
+                          color: '#2c2c2c'
+                        }}
+                      >
+                        {category.name === 'bakery + bread' ? '🥖' : 
+                         category.name === 'fruits + veggies' ? '🍎' :
+                         category.name === 'meat + toppings' ? '🥓' :
+                         category.name === 'drinks + wine' ? '🍷' :
+                         category.name === 'treats + snacks' ? '🍿' : '🥛'} {category.name}
+                      </Typography>
+                      {category.items.map((item, itemIndex) => (
+                        <FormControlLabel
+                          key={itemIndex}
+                          control={<Checkbox size="small" />}
+                          label={item}
+                          sx={{ 
+                            display: 'block',
+                            '& .MuiFormControlLabel-label': {
+                              fontSize: '0.75rem',
+                              color: '#2c2c2c'
+                            }
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </Grid>
+                ))}
               </Grid>
-              
-              <Grid item xs={6} md={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h2" sx={{ 
-                    color: '#7FB069', 
-                    fontWeight: 700,
-                    fontSize: { xs: '2rem', md: '3rem' }
-                  }}>
-                    {Object.keys(stats.categories).length}
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#7A8471' }}>
-                    Categories
-                  </Typography>
-                </Box>
-              </Grid>
-              
-              <Grid item xs={6} md={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h2" sx={{ 
-                    color: '#7FB069', 
-                    fontWeight: 700,
-                    fontSize: { xs: '2rem', md: '3rem' }
-                  }}>
-                    {Object.keys(stats.tags).length}
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#7A8471' }}>
-                    Tags
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-          </Paper>
-        </Box>
+            </Paper>
+          </Grid>
+        </Grid>
       </Container>
 
-      {/* Dialog para detalles de comida (solo para vista rápida) */}
+      {/* Add New Food Dialog */}
       <Dialog
-        open={!!selectedFood}
+        open={showAddDialog}
         onClose={handleCloseDialog}
-        maxWidth="md"
+        maxWidth="sm"
         fullWidth
       >
         <DialogTitle sx={{ 
           display: 'flex', 
           justifyContent: 'space-between', 
           alignItems: 'center',
-          pb: 1
+          backgroundColor: '#f8f6f0',
+          color: '#2c2c2c'
         }}>
-          <Typography variant="h5" sx={{ color: '#2F4F2F', fontWeight: 600 }}>
-            {selectedFood?.name}
+          <Typography variant="h6" sx={{ fontSize: '0.9rem' }}>
+            🥄 Add New Flavor
           </Typography>
           <IconButton onClick={handleCloseDialog}>
             <Close />
           </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ pt: 2 }}>
-          {selectedFood && (
-            <FoodCard 
-              food={selectedFood} 
-              showActions={false}
-            />
-          )}
+        
+        <DialogContent sx={{ pt: 2, backgroundColor: '#f8f6f0' }}>
+          <TextField
+            autoFocus
+            fullWidth
+            label="Food name"
+            value={newFood.name}
+            onChange={(e) => setNewFood(prev => ({ ...prev, name: e.target.value }))}
+            sx={{ mb: 2 }}
+            placeholder="e.g. homemade pasta"
+          />
+          
+          <TextField
+            fullWidth
+            label="Description (optional)"
+            multiline
+            rows={2}
+            value={newFood.description}
+            onChange={(e) => setNewFood(prev => ({ ...prev, description: e.target.value }))}
+            sx={{ mb: 2 }}
+            placeholder="Brief description of your dish..."
+          />
+          
+          <TextField
+            fullWidth
+            label="Image URL (optional)"
+            value={newFood.image}
+            onChange={(e) => setNewFood(prev => ({ ...prev, image: e.target.value }))}
+            placeholder="https://example.com/image.jpg"
+          />
         </DialogContent>
+        
+        <DialogActions sx={{ p: 3, backgroundColor: '#f8f6f0' }}>
+          <Button 
+            onClick={handleCloseDialog}
+            sx={{ color: '#666', textTransform: 'lowercase' }}
+          >
+            cancel
+          </Button>
+          <Button 
+            onClick={handleSaveFood}
+            variant="contained"
+            sx={{
+              backgroundColor: '#C8DDB5',
+              color: '#2c2c2c',
+              textTransform: 'lowercase',
+              '&:hover': { backgroundColor: '#A8C895' }
+            }}
+          >
+            add flavor
+          </Button>
+        </DialogActions>
       </Dialog>
     </Box>
   );

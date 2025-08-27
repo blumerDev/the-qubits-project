@@ -1,26 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Box } from '@mui/material';
 import theme from '../../theme/theme';
-import FullscreenMenu from './FullscreenMenu';
 import Header from './Header';
 import { FoodProvider } from '../../context/FoodContext';
 
 function Layout({ children }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   return (
     <FoodProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <FullscreenMenu isOpen={menuOpen} onToggle={toggleMenu} />
-          
-          <Header onMenuClick={toggleMenu} />
+          <Header />
           
           <Box
             component="main"
